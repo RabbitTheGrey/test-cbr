@@ -59,6 +59,7 @@ grant all privileges on database test_cbr to cbr;
 
 далее бахаем команды
 ```shell
+composer install
 bin/console lexik:jwt:generate-keypair #генерация связки ключей для создания токенов
 bin/console doc:mig:mig #миграции
 bin/console doctrine:fixtures:load #фикстура с тестовым пользователем
