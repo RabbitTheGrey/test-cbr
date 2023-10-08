@@ -64,3 +64,38 @@ bin/console lexik:jwt:generate-keypair #генерация связки ключ
 bin/console doc:mig:mig #миграции
 bin/console doctrine:fixtures:load #фикстура с тестовым пользователем
 ```
+
+<h2>Пример использования</h2>
+
+авторизация
+```
+POST test-cbr.localhost/api/login
+
+{
+    "email": "user@example.com",
+    "password": "securePassword"
+}
+```
+
+ответ
+```
+{
+    "success": true,
+    "user_id": 1,
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2OTY3NzU0MDksImV4cCI6MTY5Njc3OTAwOSwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoidXNlckBleGFtcGxlLmNvbSJ9.W-W_xy1J0iCxfnwXIen4g7RsZC5AhxcmCoDseAsNPbFdMohg0DaeBe-E0F3JbVXsF3Q6H0-d8huZxA-ShDMdIm8Q-Wp8C6QXjFbCMIJdBgajQsel_p05qGFoPntBkYMfdccS7jTGM6CY8VhsSOP99FWox7_70cutMAtD_XkXyYU4hwd5MTBUJaI1By8TfM4MOZvWe85ULP4WLN__Kzcasgt13EridWTUe4QcDaRE4k_SA4bwJl7udH5mh3MoiRKzAJvUe0O_vCzucUBeR1Qls_rhOvz9Xop0rvDSsylvibfMSVfD5lyFoGhkI3BSvUbAxD96UjsD5jf450rnK4vw_g"
+}
+```
+
+получение курсов валют
+```
+HEADERS
+    id     | 1
+    token  | eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2OTY3NzU0MDksImV4cCI6MTY5Njc3OTAwOSwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoidXNlckBleGFtcGxlLmNvbSJ9.W-W_xy1J0iCxfnwXIen4g7RsZC5AhxcmCoDseAsNPbFdMohg0DaeBe-E0F3JbVXsF3Q6H0-d8huZxA-ShDMdIm8Q-Wp8C6QXjFbCMIJdBgajQsel_p05qGFoPntBkYMfdccS7jTGM6CY8VhsSOP99FWox7_70cutMAtD_XkXyYU4hwd5MTBUJaI1By8TfM4MOZvWe85ULP4WLN__Kzcasgt13EridWTUe4QcDaRE4k_SA4bwJl7udH5mh3MoiRKzAJvUe0O_vCzucUBeR1Qls_rhOvz9Xop0rvDSsylvibfMSVfD5lyFoGhkI3BSvUbAxD96UjsD5jf450rnK4vw_g
+
+GET test-cbr.localhost/api/getCurrency
+
+{
+    "date_start": "20.08.2023",
+    "date_end": "22.08.2023"
+}
+```
