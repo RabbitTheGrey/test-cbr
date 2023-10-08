@@ -78,7 +78,7 @@ POST test-cbr.localhost/api/login
 ```
 
 ответ
-```
+```json
 {
     "success": true,
     "user_id": 1,
@@ -97,5 +97,65 @@ GET test-cbr.localhost/api/getCurrency
 {
     "date_start": "20.08.2023",
     "date_end": "22.08.2023"
+}
+```
+
+ответ
+```json
+{
+    "success": true,
+    "currencies": [
+        {
+            "@attributes": {
+                "ID": "R01235",
+                "DateRange1": "20.08.2023",
+                "DateRange2": "22.08.2023",
+                "name": "Foreign Currency Market Dynamic"
+            },
+            "Record": {
+                "@attributes": {
+                    "Date": "22.08.2023",
+                    "Id": "R01235"
+                },
+                "Nominal": "1",
+                "Value": "94,1424",
+                "VunitRate": "94,1424"
+            }
+        },
+        {
+            "@attributes": {
+                "ID": "R01239",
+                "DateRange1": "20.08.2023",
+                "DateRange2": "22.08.2023",
+                "name": "Foreign Currency Market Dynamic"
+            },
+            "Record": {
+                "@attributes": {
+                    "Date": "22.08.2023",
+                    "Id": "R01239"
+                },
+                "Nominal": "1",
+                "Value": "102,5719",
+                "VunitRate": "102,5719"
+            }
+        },
+        {
+            "@attributes": {
+                "ID": "R01375",
+                "DateRange1": "20.08.2023",
+                "DateRange2": "22.08.2023",
+                "name": "Foreign Currency Market Dynamic"
+            },
+            "Record": {
+                "@attributes": {
+                    "Date": "22.08.2023",
+                    "Id": "R01375"
+                },
+                "Nominal": "1",
+                "Value": "12,8620",
+                "VunitRate": "12,862"
+            }
+        }
+    ]
 }
 ```
