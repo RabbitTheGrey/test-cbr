@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 
 /**
  * по идее этого класса не должно быть, тк фреймворк содержит бандл для авторизации,
@@ -58,6 +59,7 @@ class LoginController extends BaseController
      * @param Request $request
      *
      * @return Response
+     * @throws ExceptionInterface
      */
     #[Route(path: "/api/login", name: "api_login", methods: ["POST"])]
     public function index(JWTTokenManagerInterface $JWTManager, Request $request): Response
@@ -101,8 +103,7 @@ class LoginController extends BaseController
 
         return $this->json([
             'success' => true,
-            'user_id' => $user->getId(),
-            'token' => $user->getApiToken(),
+            'user' => $this->serializer->normalize($user, null, ['groups' => ['login']]),
         ]);
     }
 
