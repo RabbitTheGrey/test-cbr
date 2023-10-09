@@ -86,10 +86,7 @@ class ApiKeyAuthenticator extends AbstractAuthenticator
             ]);
         }
 
-        $user = $this->userRepository->findOneBy([
-            'id' => $userId,
-            'apiToken' => $apiToken,
-        ]);
+        $user = $this->userRepository->loadUserByIdAndToken($userId, $apiToken);
 
         if (!$user) {
             throw new CustomUserMessageAuthenticationException('incorrect id or token');
