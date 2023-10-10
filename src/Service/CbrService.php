@@ -32,7 +32,7 @@ class CbrService implements CbrContract
                 'VAL_NM_RQ' => $case->value,
             ];
 
-            $result[] = $this->exec(self::API_METHOD_DYNAMIC, $params);
+            $result[$case->name] = $this->exec(self::API_METHOD_DYNAMIC, $params);
         }
 
         return $result;
