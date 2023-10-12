@@ -5,6 +5,8 @@ namespace App\Service;
 use App\Enums\CurrenciesEnum;
 use App\Exception\CbrException;
 use App\Service\Contract\CbrContract;
+use DateInterval;
+use DatePeriod;
 use DateTime;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
@@ -24,6 +26,7 @@ class CbrService implements CbrContract
     public function getCurrency(DateTime $dateStart, DateTime $dateEnd): array
     {
         $result = [];
+        $period = new DatePeriod($dateStart, new DateInterval('P1D'), $dateEnd, DatePeriod::INCLUDE_END_DATE);
 
         foreach (CurrenciesEnum::cases() as $case) {
             $params = [
@@ -32,7 +35,29 @@ class CbrService implements CbrContract
                 'VAL_NM_RQ' => $case->value,
             ];
 
-            $result[$case->name] = $this->exec(self::API_METHOD_DYNAMIC, $params);
+            $response = $this->exec(self::API_METHOD_DYNAMIC, $params);
+
+            foreach ($response->Record as $record) {
+                $date = (string) $record->attributes()->Date;
+                $result[$case->name][$date] = (string) $record->Value;
+            }
+
+            if (empty($result)) {
+                return $result;
+            }
+
+            foreach ($period as $day) {
+                $date = $day->format('d.m.Y');
+                if (array_key_exists($date, $result[$case->name])) {
+                    $lastFilledValue = $result[$case->name][$date];
+                } elseif (isset($lastFilledValue)) {
+                    $result[$case->name][$date] = $lastFilledValue;
+                }
+            }
+
+            uksort($result[$case->name], function (string $date1, string $date2) {
+                return strtotime($date1) - strtotime($date2);
+            });
         }
 
         return $result;
@@ -74,7 +99,6 @@ class CbrService implements CbrContract
 
         $xml = $response->getContent();
 
-        // очень оригинально, но решает проблемы и с кодировкой, и с рекусивным обходом xml
-        return json_decode(json_encode(simplexml_load_string($xml)));
+        return simplexml_load_string($xml);
     }
 }

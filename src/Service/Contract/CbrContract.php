@@ -4,6 +4,7 @@ namespace App\Service\Contract;
 
 use App\Exception\CbrException;
 use DateTime;
+use Psr\Cache\InvalidArgumentException;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 interface CbrContract
@@ -20,6 +21,7 @@ interface CbrContract
      * @return array
      * @throws CbrException
      * @throws TransportExceptionInterface
+     * @throws InvalidArgumentException
      */
     public function getCurrency(DateTime $dateStart, DateTime $dateEnd): array;
 }
